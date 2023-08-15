@@ -246,7 +246,29 @@ async def start(client, message):
         caption=f_caption,
         protect_content=True if pre == 'filep' else False,
         )
-                    
+
+
+#====================================================================================================================================#
+
+
+#source command code 
+@Client.on_message(filters.command("source") & filters.private)
+async def send_source_button(_, message):
+    source_button = InlineKeyboardButton("Source", callback_data="source_link")
+    keyboard = InlineKeyboardMarkup([[source_button]])
+    await message.reply_text("Click here to get the source link.", reply_markup=keyboard)
+
+
+#callback button codes 😁
+@Client.on_callback_query(filters.regex(r"^source_link$") & filters.private)
+async def source_callback(client: Client, message: Message, query: CallbackQuery):
+    #when user will click button bot will send New message 😄
+    await query.answer("Sending source link...")
+    await message.reply_text("Here's the source link: [Source](https://t.me/Legend_Boi)")
+    
+
+#====================================================================================================================================#
+
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
